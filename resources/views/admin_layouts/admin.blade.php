@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html>
 <head>
@@ -6,15 +5,12 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
 
-    <title>Collapsible sidebar using Bootstrap 3</title>
-
-    <!-- Bootstrap CSS CDN -->
+    <title>@yield('pageTitle')</title>
+    <link rel="shortcut icon" href="{{url('/public/images/logo.ico')}}" type="image/png">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
-    <!-- Our Custom CSS -->
     <link rel="stylesheet" href="/css/admin/admin.css">
     @include('layouts_parts.js')
     <script src="/js/admin/admin.blade.js"></script>
-    {{--<link href="/css/main.css" rel="stylesheet">--}}
 </head>
 <body>
 <div id="pjax-container">
@@ -24,10 +20,5 @@
             @yield('container')
     </div>
 </div>
-
-
-
-
-
 </body>
 </html>

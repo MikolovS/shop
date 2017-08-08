@@ -15,6 +15,11 @@ class Category extends Model
     public $img_w = 500;
     public $clsName = 'category';
 
+    public function getRouteKeyName()
+    {
+        return 'slug';
+    }
+
     public static function boot()
     {
         parent::boot();

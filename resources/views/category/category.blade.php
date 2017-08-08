@@ -1,7 +1,7 @@
 @extends('admin_layouts.admin')
 
 @section('container')
-    <div id="content">
+    <div class="container" id="pjax-content">
         @yield('content')
     </div>
 @endsection

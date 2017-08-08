@@ -11,8 +11,9 @@
             </button>
         </div>
         <div class="col-lg-4">
-            <form method="POST"  data-container class="category" action="{{url('/admin/category')}}" enctype="multipart/form-data">
+            <form method="POST"  data-container class="category" action="{{url('/admin/category') .'/'. $category->slug}}" enctype="multipart/form-data">
                 {{ csrf_field() }}
+                {!! method_field('patch') !!}
                 <div class="form-group select-group">
                     <label class="control-label " for="select">
                         Выбирите категорию
@@ -21,11 +22,9 @@
                         <option value="0">
                             Новая категория
                         </option>
-                        @foreach($categories[0] as $category)
-                            <option value="{{$category['id']}}">
-                                {{$category['name']}}
-                            </option>
-                        @endforeach
+                        <option value="{{$parent['id']}}" selected>
+                            {{$parent['name']}}
+                        </option>
                     </select>
                 </div>
                 <label class="control-label " for="select">
@@ -37,7 +36,7 @@
                     <div class="btn btn-primary image-preview-input">
                         <span class="glyphicon glyphicon-folder-open"></span>
                         <span class="image-preview-input-title">Обзор</span>
-                        <input type="file" accept="image/png, image/jpeg, image/gif" id="img" name="img" required/>
+                        <input type="file" accept="image/png, image/jpeg, image/gif" id="img" name="img"/>
                     </div>
                 </span>
                 </div>
@@ -46,7 +45,7 @@
                     <label class="control-label " for="name">
                         Name
                     </label>
-                    <input class="form-control" id="name" name="name" type="text" minlength="2" required/>
+                    <input class="form-control" id="name" name="name" type="text" minlength="2" value="{{$category->name}}" required/>
                 </div>
                 <div class="form-group">
                     <div>
@@ -70,7 +69,7 @@
         var inputFile = $(".image-preview-input input:file");
         //стандартный рисунок
         function noImg() {
-            imgPreview.attr('src', '{{url("/") . Img::NOIMG}}');
+            imgPreview.attr('src', '{{$model['img']}}');
             clearButton.hide();
         }
         function imgInputTitle(title, filename) {

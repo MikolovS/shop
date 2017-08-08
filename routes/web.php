@@ -26,6 +26,10 @@ Route::group(['namespace' => 'Admin', 'prefix' => 'admin', 'middleware' => 'admi
         return view('admin_layouts.admin');
     });
     //category
+    Route::get('/category', 'CategoryController@index');
     Route::get('/category/create', 'CategoryController@create');
+    Route::get('/category/{category}', 'CategoryController@group');
+    Route::get('/category/show/{category}', 'CategoryController@show');
     Route::post('/category', 'CategoryController@store');
+    Route::patch('/category/{category}', 'CategoryController@update');
 });

@@ -178,6 +178,7 @@ return [
         App\Providers\EventServiceProvider::class,
         App\Providers\RouteServiceProvider::class,
         Intervention\Image\ImageServiceProvider::class,
+        \App\Providers\ImgServiceProvider::class,
 
     ],
 
@@ -229,6 +230,7 @@ return [
         'View' => Illuminate\Support\Facades\View::class,
         'Slug' => AlexeyMezenin\LaravelRussianSlugs\SlugsFacade::class,
         'Image' => Intervention\Image\Facades\Image::class,
+        'Img' => \App\Http\HelpersModel\Img::class,
 
     ],
 
