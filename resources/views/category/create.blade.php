@@ -18,14 +18,16 @@
                         Выбирите категорию
                     </label>
                     <select class="select form-control" id="parent_id" name="parent_id">
-                        <option value="0">
-                            Новая категория
+                        <option value="{{$categories[0][0]['id']}}">
+                            {{$categories[0][0]['name']}}
                         </option>
-                        @foreach($categories[0] as $category)
-                            <option value="{{$category['id']}}">
-                                {{$category['name']}}
-                            </option>
-                        @endforeach
+                        @if(!empty($categories[1]))
+                            @foreach($categories[1] as $category)
+                                <option value="{{$category['id']}}">
+                                    {{$category['name']}}
+                                </option>
+                            @endforeach
+                        @endif
                     </select>
                 </div>
                 <label class="control-label " for="select">

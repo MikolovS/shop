@@ -20,6 +20,14 @@ class CategoriesTable extends Migration
                 $table->string('slug');
                 $table->string('img');
             });
+            DB::table('categories')->insert(
+                [
+                    'parent_id' => 0,
+                    'name' => 'Новая категория',
+                    'slug' => 'root',
+                    'img' => '/images/noimg.jpeg'
+                ]
+            );
     }
 
     /**

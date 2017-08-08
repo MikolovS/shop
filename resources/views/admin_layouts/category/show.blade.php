@@ -1,6 +1,6 @@
 @extends('category.category')
 
-@section('pageTitle', 'Добавить Категорию')
+@section('pageTitle', '{{$category->name}}')
 @section('content')
     <div class="row">
             <h1 class="text-center page-header">Новая категория</h1>
@@ -16,14 +16,14 @@
                 {!! method_field('patch') !!}
                 <div class="form-group select-group">
                     <label class="control-label " for="select">
-                        Выбирите категорию
+                        Категория
                     </label>
                     <select class="select form-control" id="parent_id" name="parent_id">
-                        <option value="0">
-                            Новая категория
+                        <option value="1">
+                            Изменить категорию
                         </option>
                         <option value="{{$parent['id']}}" selected>
-                            {{$parent['name']}}
+                            {{$parent['name']}} - <p>текущая категория</p>
                         </option>
                     </select>
                 </div>
@@ -69,7 +69,7 @@
         var inputFile = $(".image-preview-input input:file");
         //стандартный рисунок
         function noImg() {
-            imgPreview.attr('src', '{{$model['img']}}');
+            imgPreview.attr('src', '{{$category->img}}');
             clearButton.hide();
         }
         function imgInputTitle(title, filename) {
@@ -80,7 +80,7 @@
         $(document).ready(function(){
             //манипуляция с селектами категорий
             $('.category').on('change', 'select', function () {
-                var rootId = $(this).find('option').first().attr('value');
+                var rootId = $(this).find('option').last().attr('value');
                 //если категория сбрасывается на родительскую - удаляем все селекты после неё
                 if(this.value === rootId) {
                     $(this).closest('.select-group').nextAll('.select-group').remove();
@@ -89,7 +89,8 @@
                         var roots = myObj[this.value]; //выбранные подкатегории
                         var parentDiv = $(this).closest('.form-group');//родительский контейнер
                         var select = parentDiv.clone(); //клонируем select
-                        var option = select.find('option').remove().first(); // копируем родительскую опцию
+                        select.find('label').text('Выбирите категорию');
+                        var option = select.find('option').remove().first().text('Новая категория'); // копируем родительскую опцию
 
                         select.find('select').append(option);// добавляем родительскую опцию в новый селект
                         option.attr('value', this.value); // добавляем id родительской категории

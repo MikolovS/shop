@@ -10,7 +10,7 @@ class CategoryController extends \App\Http\Controllers\CategoryController
 {
 
     public function index() {
-        $categories = Category::all()->where('parent_id', 0)->toArray();
+        $categories = Category::all()->where('parent_id', 1)->toArray();
         if (!$categories) {
             $categories = [];
         }
@@ -36,13 +36,12 @@ class CategoryController extends \App\Http\Controllers\CategoryController
     public function show(Category $category){
         $collection = Category::all();
         $categories = $collection->groupBy('parent_id')->toArray();
-        $parent = $collection->where('id', $category->parent_id);
+        $parent = $collection->where('id', $category->parent_id)->first()->toArray();
         if (empty($parent)) {
             $parent = [
 
             ];
         }
-        dd($parent);
         return view('admin_layouts.category.show', compact('collection', 'categories', 'parent', 'category'));
     }
 
@@ -57,7 +56,7 @@ class CategoryController extends \App\Http\Controllers\CategoryController
     }
     public function update(Category $category) {
         $category->name = request('name');
-//        $category->parent_id = request('parent_id');
+        $category->parent_id = request('parent_id');
         $category->reslug('name');
         if (request()->file()) {
             $category->img = Img::saveImg($category);
