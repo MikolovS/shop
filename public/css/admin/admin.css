@@ -32,7 +32,14 @@ i, span {
     display: flex;
     align-items: stretch;
 }
+.content {
+    width: 100%;
+    margin: 0 5% 0 5%;
+}
 
+.message {
+    height: 5%;
+}
 #sidebarToggle {
     margin: 7px;
 
@@ -257,4 +264,12 @@ ul.CTAs a {
 }
 .image-preview-input-title {
     margin-left:2px;
+}
+
+/* ---------------------------------------------------
+    Root blade
+----------------------------------------------------- */
+
+.animate  {
+    opacity: 0.8;
 }
