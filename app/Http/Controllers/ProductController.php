@@ -5,8 +5,6 @@ namespace App\Http\Controllers;
 use AlexeyMezenin\LaravelRussianSlugs\SlugsTrait;
 use App\Category;
 use App\Http\Requests\ProductRequest;
-use App\Http\Requests\StoreProduct;
-use App\Http\Requests\UpdateProduct;
 use App\Product;
 use App\Http\HelpersModel\Img;
 use Illuminate\Http\Request;
@@ -22,7 +20,6 @@ class ProductController extends Controller
      */
     public function index()
     {
-
     }
 
     /**
@@ -52,7 +49,7 @@ class ProductController extends Controller
         $product->img = Img::saveImg($product);
         $product->save();
 	    $message = 'Создание произведено успешно!';
-	    return redirect('/admin/product/' . $product->slug . '/edit')->with(compact('message'));
+	    return redirect('/admin/category/' . request('category_slug'))->with(compact('message'));
     }
 
     /**
@@ -112,7 +109,8 @@ class ProductController extends Controller
     public function destroy(Product $product)
     {
     	$product->delete();
-	    $message = 'Продукт удален!';
+    	Img::delete($product);
+	    $message = 'Продукт ' . $product->name . ' удален!';
 	    return redirect()->back()->with(compact('message'));
     }
 }

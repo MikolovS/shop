@@ -2,6 +2,7 @@
 <html lang="ru">
 <head>
     @include('public.layouts_parts.header')
+    @include('public.layouts_parts.js')
 </head>
 
 <body>
@@ -11,6 +12,5 @@
     @yield('container')
 </div>
 
-@include('public.layouts_parts.js')
 </body>
 </html>

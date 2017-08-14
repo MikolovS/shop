@@ -20,9 +20,10 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index() {
-        $categories = Category::all()->where('parent_id', 1)->toArray();
+        $collection = Category::all();
+	    $categories =$collection->where('parent_id', 1)->toArray();
         if (!$categories) {
-            $categories = [];
+	        return view('admin.category.start', compact('category'));
         }
         return view('admin.category.index', compact('categories'));
     }
@@ -45,11 +46,15 @@ class CategoryController extends Controller
     public function store(CategoryRequest $request) {
         $category = new Category();
         $category->name = ucfirst(request('name'));
-        $category->parent_id = request('parent_id');
+        $category->parent_id = (integer) request('parent_id');
         $category->reslug('name');
         $category->img = Img::saveImg($category);
         $category->save();
-        return redirect('/admin/category/create');
+        $message = 'Категория "' . $category->name . '" успешно создана!';
+        if ($category->parent_id !== 1) {
+	        return redirect('/admin/category/'. request('parent_slug'))->with(compact('message'));
+        }
+	    return redirect('/admin/category/')->with(compact('message'));
     }
 
     /**
@@ -59,15 +64,18 @@ class CategoryController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function show(Category $category){
-        $categories = Category::all()->where('parent_id', $category->id)->toArray();
+        $collections = Category::all();
+        $categories = $collections->where('parent_id', $category->id)->toArray();
+	    $branchIds = $category->categoryBranch($collections, $category->id);
+	    $links = $category->links($collections, $branchIds, TRUE);
         if (empty($categories)) {
             $products = $category->products->toArray();
             if (empty($products)) {
-	            return view('admin.category.root', compact('category'));
+	            return view('admin.category.root', compact('category', 'links'));
             }
-            return view('admin.product.index', compact('products', 'category'));
+            return view('admin.product.index', compact('products', 'category', 'links'));
         }
-        return view('admin.category.index', compact('categories'));
+        return view('admin.category.show', compact('categories', 'category','links'));
     }
 
     /**
@@ -78,12 +86,10 @@ class CategoryController extends Controller
      */
     public function edit(Category $category)
     {
-        $collection = Category::all();
-        $categories = $collection->groupBy('parent_id')->toArray();
-        $parent = $collection->where('id', $category->parent_id)->first()->toArray();
+        $parent = Category::all()->where('id', $category->parent_id)->first()->toArray();
         if (empty($parent)) {
             $parent = [
-
+				'id' => '1',
             ];
         }
         return view('admin.category.edit', compact('collection', 'categories', 'parent', 'category'));
@@ -111,8 +117,13 @@ class CategoryController extends Controller
 	    return redirect()->back()->with(compact('message'));
     }
 
-    public function group($category) {
-
-    }
+	public function destroy(Category $category)
+	{
+		$category->delete();
+		Img::delete($category);
+		$category->deleteChild();
+		$message = 'Категория ' . $category->name . ' удалена!';
+		return redirect()->back()->with(compact('message'));
+	}
 
 }

@@ -63,6 +63,20 @@ return [
             'bucket' => env('AWS_BUCKET'),
         ],
 
+	    'category' => [
+		    'driver' => 'local',
+		    'root' => storage_path('../public/images/category'),
+		    'url' => env('APP_URL').'/images',
+		    'visibility' => 'public',
+	    ],
+
+	    'product' => [
+		    'driver' => 'local',
+		    'root' => storage_path('../public/images/product'),
+		    'url' => env('APP_URL').'/product',
+		    'visibility' => 'public',
+	    ],
+
     ],
 
 ];

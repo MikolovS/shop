@@ -53,3 +53,9 @@ footer {
         width: 50%; /* 6 columns */
     }
 }
+/*nav links*/
+.links :last-child{
+    pointer-events: none; /* делаем ссылку некликабельной */
+    cursor: default;  /* устанавливаем курсор в виде стрелки */
+    color: #999; /* цвет текста для нективной ссылки */
+}

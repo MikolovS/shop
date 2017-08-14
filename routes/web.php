@@ -10,20 +10,17 @@
 | contains the "web" middleware group. Now create something great!
 |
 */
-
-Route::get('/', 'CategoryController@welcome');
-
 //authenticating
 Auth::routes();
+Route::get('/', 'PublicController@index');
+Route::get('/admin', 'CategoryController@index');
+Route::get('/{category}', 'PublicController@show');
+
 
 //Admin
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function()
 {
     Route::get('/', function () {
-        $category = \App\Category::find(4);
-        $products = $category->products;
-        dd($products->toArray());
-
         return view('admin.index');
     });
     //category

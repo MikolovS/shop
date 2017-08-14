@@ -2,12 +2,14 @@
 @section('pageTitle', 'Категории')
 @section('content')
     <div class="row">
+        @include('public.layouts_parts.links')
+        <h1 class="page-header">
+            Раздел в категории {{$category->name}}
+            <a class="btn btn-primary pull-right" href="{{url('/admin/category/create/' . $category->slug)}}" data-content>
+                + Добавить категорию
+            </a>
+        </h1>
 
-            <h1 class="page-header">Корневой раздел
-                <a class="btn btn-primary pull-right" href="{{url("/admin/category/create/root")}}" data-content>
-                    + Добавить категорию
-                </a>
-            </h1>
 
         @foreach($categories as $category)
             <div class="col-6 col-sm-6 col-md-4 col-lg-3">

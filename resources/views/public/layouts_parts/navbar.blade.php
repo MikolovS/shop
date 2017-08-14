@@ -32,7 +32,7 @@
                                     {{ csrf_field() }}
                                     <div class="form-group">
                                         <div class="col-md-12">
-                                            <button type="submit" class="btn btn-group-justified btn-danger">
+                                            <button type="submit" class="btn btn-xs btn-danger">
                                                 Logout
                                             </button>
                                         </div>

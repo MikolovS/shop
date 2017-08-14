@@ -3,8 +3,15 @@ $(document).ready(function () {
     $('[data-toggle="offcanvas"]').click(function () {
         $('.row-offcanvas').toggleClass('active')
     });
+    //tooltips
+    $( '[title]' ).tooltip({
+        position: {
+            my: 'left top',
+            at: 'right-200 top+40',
+            collision: 'none'
+        }
+    });
 });
-
 //pjax
 $(document).pjax('a[data-container]', '#pjax-container');
 $(document).pjax('a[data-content]', '#pjax-content');
