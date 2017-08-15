@@ -1,7 +1,8 @@
 @extends('public.index')
 
 @section('container')
-    <div class="container" id="pjax-content">
+    <div class="content" id="pjax-content">
+        @include('public.layouts_parts.message')
         @yield('content')
     </div>
 @endsection

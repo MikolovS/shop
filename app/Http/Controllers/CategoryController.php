@@ -12,6 +12,10 @@ use App\Http\Requests\StoreCategory;
 class CategoryController extends Controller
 {
     public function welcome(){
+	    $collection = Category::all()->groupBy('parent_id')->toArray();
+
+	    dd($collection);
+
         return view('layouts.main');
     }
     /**
@@ -43,9 +47,8 @@ class CategoryController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(CategoryRequest $request) {
-        $category = new Category();
-        $category->name = ucfirst(request('name'));
+    public function store(CategoryRequest $request, Category $category) {
+        $category->name = mb_convert_case(request('name'), MB_CASE_TITLE, 'UTF-8');
         $category->parent_id = (integer) request('parent_id');
         $category->reslug('name');
         $category->img = Img::saveImg($category);
@@ -106,7 +109,7 @@ class CategoryController extends Controller
         if ($category->name !== request('name')) {
             \File::delete(public_path() . $category->img);
         }
-        $category->name = ucfirst(request('name'));
+        $category->name = mb_convert_case(request('name'), MB_CASE_TITLE, 'UTF-8');
         $category->parent_id = request('parent_id');
         $category->reslug('name', TRUE);
         if (request()->file()) {

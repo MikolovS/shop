@@ -12,7 +12,36 @@
                     <img class="imgPreview img-rounded" src="{{$product['img']}}" alt="{{$product['img']}}">
                 </a>
                 <h2>{{$product['name']}}</h2>
+                @if(isset($_COOKIE['cart']) && array_key_exists ($product['id'], unserialize($_COOKIE['cart'])))
+                    <button type="button" class="btn btn-xs btn-primary" id="{{$product['id']}}" disabled>
+                        товар уже в корзине
+                    </button>
+                    @else
+                        <button type="submit" class="btn btn-xs btn-success buy" id="{{$product['id']}}">
+                            купить
+                        </button>
+                @endif
             </div>
         @endforeach
     </div>
+
+    <form method="POST" action="{{url('/' . 'user/addToCart')}}" data-container id="buy-form">
+    {{ csrf_field() }}
+        <input id="product_id" type="hidden" name="product_id" value>
+        <input id="count" type="hidden" name="count" value="1">
+    </form>
+
+    <script>
+        $(document).ready(function() {
+            //modal remove on ajax
+            $('body').removeClass('modal-open');
+            $('.modal-backdrop').remove();
+            //
+
+            $('.buy').on('click', function(){
+                $('#product_id').attr('value', this.id);
+                $('#buy-form').submit();
+            });
+        });
+    </script>
 @endsection

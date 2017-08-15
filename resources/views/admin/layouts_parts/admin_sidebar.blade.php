@@ -15,8 +15,8 @@
                 Category
             </a>
             <ul class="collapse list-unstyled" id="homeSubmenu">
-                <li><a href="{{url('/admin/category/create')}}" data-container>Добавить Категорию</a></li>
                 <li><a href="{{url('/admin/category')}}" data-container>Все категории</a></li>
+
                 <li><a href="#">Home 3</a></li>
             </ul>
         </li>

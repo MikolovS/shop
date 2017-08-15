@@ -30,4 +30,5 @@ class User extends Authenticatable
     {
         return $this->role; // this looks for an admin column in your users table
     }
+
 }

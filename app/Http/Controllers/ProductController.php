@@ -41,7 +41,7 @@ class ProductController extends Controller
      */
     public function store(ProductRequest $request, Product $product)
     {
-	    $product->name = ucfirst(request('name'));
+	    $product->name = mb_convert_case(request('name'), MB_CASE_TITLE, 'UTF-8');
         $product->category_id = request('category_id');
         $product->price = request('price');
         $product->reslug('name');
@@ -87,7 +87,7 @@ class ProductController extends Controller
         if ($product->name !== request('name')) {
             \File::delete(public_path() . $product->img);
         }
-        $product->name = ucfirst(request('name'));
+        $product->name = mb_convert_case(request('name'), MB_CASE_TITLE, 'UTF-8');
         $product->category_id = request('category_id');
         $product->reslug('name', TRUE);
         $product->slug = request('category_slug') . '--' . $product->slug;

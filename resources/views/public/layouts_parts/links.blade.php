@@ -8,5 +8,5 @@
 </div>
 
 <script>
-    $('.links').last().removeAttr('href');
+    $('.nav-link').last().removeAttr('href');
 </script>
