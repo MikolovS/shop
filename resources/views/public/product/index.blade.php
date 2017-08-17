@@ -25,7 +25,7 @@
         @endforeach
     </div>
 
-    <form method="POST" action="{{url('/' . 'user/addToCart')}}" data-container id="buy-form">
+    <form method="POST" action="{{url('/cart/add')}}" data-container id="buy-form">
     {{ csrf_field() }}
         <input id="product_id" type="hidden" name="product_id" value>
         <input id="count" type="hidden" name="count" value="1">

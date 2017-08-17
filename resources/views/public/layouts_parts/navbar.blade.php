@@ -28,6 +28,9 @@
 
                         <ul class="dropdown-menu" role="menu">
                             <li>
+                                <a href="{{url('/cart/show')}}">Корзина</a>
+                            </li>
+                            <li>
                                 <form action="{{ route('logout') }}" method="POST" data-container>
                                     {{ csrf_field() }}
                                     <div class="form-group">
@@ -42,6 +45,9 @@
                         </ul>
                     </li>
                 @endif
+            </ul>
+            <ul class="nav navbar-nav pull-right">
+                <li class="active"><a href="{{url('/cart/show')}}" data-container>Корзина</a></li>
             </ul>
         </div>
 

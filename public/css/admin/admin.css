@@ -240,8 +240,7 @@ ul.CTAs a {
     Category Create
 ----------------------------------------------------- */
 #imgPreview, .imgPreview {
-    width: 250px;
-    height:250px;
+    max-width: 210px;
 }
 .image-preview-input {
     position: relative;

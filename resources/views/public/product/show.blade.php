@@ -6,25 +6,25 @@
             {{$product->name}}
         </h1>
             <div class="col-6 col-sm-6 col-md-4 col-lg-3">
-                    <img class="imgPreview img-rounded" src="{{$product['img']}}" alt="{{$product['img']}}">
+                    <img class="imgPreview img-rounded img-responsive" src="{{$product['img']}}" alt="{{$product['img']}}">
                 <h2>{{$product['name']}}</h2>
             </div>
     </div>
-    <form method="POST" action="{{url('/' . 'user/addToCart')}}" data-container id="buy-form">
+    <form method="POST" action="{{url('/cart/add')}}" data-container id="buy-form">
         {{ csrf_field() }}
         <input id="product_id" type="hidden" name="product_id" value="{{$product->id}}">
         <div class="container">
             <div class="row">
                 <div class="col-xs-3 col-xs-offset-3">
                     <div class="input-group number-spinner">
-				<span class="input-group-btn">
-					<button class="btn btn-default arrows" data-dir="dwn" type="button"><span class="glyphicon glyphicon-minus"></span></button>
-				</span>
-                        <input type="text" class="form-control text-center" value="1" name="count">
-                        <span class="input-group-btn">
-					<button class="btn btn-default arrows" data-dir="up" type="button"><span class="glyphicon glyphicon-plus"></span></button>
-				</span>
-                    </div>
+                    <span class="input-group-btn">
+                        <button class="btn btn-default arrows" data-dir="dwn" type="button"><span class="glyphicon glyphicon-minus"></span></button>
+                    </span>
+                            <input type="text" class="form-control text-center" value="1" name="count">
+                            <span class="input-group-btn">
+                        <button class="btn btn-default arrows" data-dir="up" type="button"><span class="glyphicon glyphicon-plus"></span></button>
+                    </span>
+                        </div>
                 </div>
             </div>
         </div>
