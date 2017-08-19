@@ -2,7 +2,6 @@
 @section('pageTitle', 'Категории')
 @section('content')
     <div class="row">
-
             <h1 class="page-header">Корневой раздел
                 <a class="btn btn-primary pull-right" href="{{url("/admin/category/create/root")}}" data-content>
                     + Добавить категорию

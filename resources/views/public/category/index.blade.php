@@ -1,7 +1,7 @@
 @extends('public.main')
 @section('content')
     <div class="row">
-            <h1 class="page-header text-center">
+            <h1>
                 Главная
             </h1>
         @foreach($categories as $category)

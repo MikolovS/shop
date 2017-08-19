@@ -9,6 +9,11 @@
             {{ session()->get('message') }}
         </div>
     @endif
+    @if(session()->has('error_message'))
+        <div class="alert alert-danger">
+            {{ session()->get('error_message') }}
+        </div>
+    @endif
 </div>
 <script>
     $(document).ready(function () {

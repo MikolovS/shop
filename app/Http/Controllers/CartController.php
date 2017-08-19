@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Cart;
 use App\Http\Requests\CartRequest;
 use App\OrderInfo;
 use App\Order;
@@ -11,29 +12,49 @@ use Illuminate\Http\Request;
 
 class CartController extends Controller
 {
-	public function addToCart()
-	{
-		$product_id = (integer)\request('product_id');
-		$count = (integer)\request('count');
-		$cart = [];
-		if (isset($_COOKIE['cart'])) {
-			$cart = unserialize($_COOKIE['cart']);
+	public function add() {
+		$product_id = (integer) \request('product_id');
+		if (empty(Product::all()->where('id', $product_id)->toArray())) {
+			$error_message = 'Такого товара не существует! Попробуйте перезагрузить страницу.';
+			return back()->with(compact('error_message'));
 		}
-		if (!array_key_exists($product_id, $cart)) {
-			$cart[$product_id] = $count;
-			setcookie('cart', serialize($cart), 99999, '/');
-			$message = 'Товар добавлен в корзину.';
-			return redirect()->back()->with(compact('message'));
+		$count = (integer) \request('count');
+		if ($count === 0) {
+			$count = 1;
 		}
-		$message = 'Товар уже в корзине.';
-		return redirect()->back()->with(compact('message'));
+		if ($cart = Cart::cartExist()) {
+			if (array_key_exists($product_id, $cart)) {
+				$message = 'Товар уже в корзине.';
+				return back()->with(compact('message'));
+			}
+		}
+		$cart[$product_id] = $count;
+		\Cookie::queue('cart', serialize($cart), 99999);
+		$message = 'Товар добавлен в корзину.';
+		return back()->with(compact('message'));
 	}
 
-	public function show()
-	{
+	public function removeOne() {
+		if ($cart = Cart::cartExist()) {
+			$product_id = (integer) \request('product_id');
+			if (array_key_exists($product_id, $cart)) {
+				unset($cart[$product_id]);
+				\Cookie::queue('cart', serialize($cart), 99999);
+				$message = 'Товар удален из корзины.';
+				if (empty($cart)) {
+					return redirect('/')->with(compact('message'));
+				}
+				return back()->with(compact('message'));
+			}
+		}
+		$error_message = 'Такого товара нет в корзине.';
+		return back()->with(compact('error_message'));
+	}
+
+	public function show() {
 		$products = [];
-		if (isset($_COOKIE['cart'])) {
-			$cart = unserialize($_COOKIE['cart']);
+		$order_sum = 0;
+		if ($cart = Cart::cartExist()) {
 			$models = Product::all()->whereIn('id', array_keys($cart))->mapWithKeys(function ($item) {
 				return [$item['id'] => $item];
 			})->toArray();
@@ -42,14 +63,17 @@ class CartController extends Controller
 					$model['count'] = $cart[$model['id']];
 					$model['price_total'] = $model['price'] * $model['count'];
 					$products[] = $model;
+					$order_sum += $model['price_total'];
 				}
 			}
+		} else {
+			$message = 'Ваша корзина пока пустая. Пожалуйста, для начала добавите товар в корзину.';
+			return back()->with(compact('message'));
 		}
-		return view('public.user.cart', compact('products'));
+		return view('public.user.cart', compact('products', 'order_sum'));
 	}
 
-	public function buy(CartRequest $request)
-	{
+	public function buy(CartRequest $request) {
 		\DB::transaction(function() {
 			$order = new Order();
 			if (\Auth::user()) {
@@ -76,7 +100,10 @@ class CartController extends Controller
 			$inf_client = \request('user');
 			$inf_client['order_id'] = $order->id;
 			OrderInfo::insert($inf_client);
-		});
 
+		});
+		\Cookie::queue(\Cookie::forget('cart'));
+		$message = 'Ваш заказ успешно принят. Спазибо за покупку!';
+		return redirect('/')->with(compact('message'));
 	}
 }

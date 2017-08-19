@@ -11,7 +11,6 @@
 |
 */
 //authenticating
-
 Auth::routes();
 Route::get('/', 'PublicController@index');
 Route::get('/welcome', 'CategoryController@welcome');
@@ -22,11 +21,14 @@ Route::get('/{product}', 'PublicController@showProduct')
 	->where('product', '^[\w]+(?:-[\w]+)*--[\w]+(?:-[\w]+)*$'); //aaa-aaa(aaa)--aaa
 // ^[\w]+(?:-[\w]+)*$  - cat
 //^[\w]+(?:-[\w]+)*--[\w]+(?:-[\w]+)*$ prod
-//user
-Route::post('/cart/add', 'CartController@add');
+//cart
+Route::post('/{product}', 'CartController@add')
+	->where('product', '^[\w]+(?:-[\w]+)*--[\w]+(?:-[\w]+)*$');
+Route::delete('/{product}', 'CartController@removeOne')
+	->where('product', '^[\w]+(?:-[\w]+)*--[\w]+(?:-[\w]+)*$');
 Route::post('/cart/buy', 'CartController@buy');
 Route::get('/cart/show', 'CartController@show');
-
+Route::get('/user/profile', 'UserController@profile');
 //Admin
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function()
 {

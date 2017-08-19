@@ -12,35 +12,32 @@
                     <img class="imgPreview img-rounded" src="{{$product['img']}}" alt="{{$product['img']}}">
                 </a>
                 <h2>{{$product['name']}}</h2>
-                @if(isset($_COOKIE['cart']) && array_key_exists ($product['id'], unserialize($_COOKIE['cart'])))
-                    <button type="button" class="btn btn-xs btn-primary" id="{{$product['id']}}" disabled>
-                        товар уже в корзине
+                @if(isset($product['in_cart']))
+                    <button type="button" class="btn btn-xs btn-primary" disabled>
+                        В корзине
                     </button>
                     @else
-                        <button type="submit" class="btn btn-xs btn-success buy" id="{{$product['id']}}">
-                            купить
+                        <button type="submit" class="btn btn-xs btn-success buy" id="{{$product['id']}}" data-slug="{{$product['slug']}}">
+                            Добавить в корзину
                         </button>
                 @endif
             </div>
         @endforeach
     </div>
 
-    <form method="POST" action="{{url('/cart/add')}}" data-container id="buy-form">
-    {{ csrf_field() }}
-        <input id="product_id" type="hidden" name="product_id" value>
+    <form method="POST" data-container id="buy-form">
+        {{ csrf_field() }}
+        <input id="product_id" type="hidden" name="product_id">
         <input id="count" type="hidden" name="count" value="1">
     </form>
 
     <script>
         $(document).ready(function() {
-            //modal remove on ajax
-            $('body').removeClass('modal-open');
-            $('.modal-backdrop').remove();
-            //
-
+            var bueForm =  $('#buy-form');
             $('.buy').on('click', function(){
                 $('#product_id').attr('value', this.id);
-                $('#buy-form').submit();
+                bueForm.attr('action', '{{url('/')}}' + '/' + $(this).data('slug'));
+                bueForm.submit();
             });
         });
     </script>

@@ -20,9 +20,9 @@ class OrdersInfoTable extends Migration
 		    $table->char('name');
 		    $table->char('phone');
 		    $table->string('address');
-		    $table->char('email');
+		    $table->char('email')->nullable();
 		    $table->tinyInteger('payment_type');
-		    $table->string('comment');
+		    $table->string('comment')->nullable();
 	    });
     }
 

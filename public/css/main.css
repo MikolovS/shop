@@ -59,7 +59,7 @@ footer {
 }
 
 .message {
-    height: 5%;
+    height: 50px;
 }
 
 .content {
@@ -70,16 +70,32 @@ footer {
     max-width: 100px;
 }
 
+.fixer {
+    margin-top: 4%;
+}
+
+.count-field {
+    /*min-height: 110px;*/
+}
+
+.required {
+    font-weight: bold;
+    color: red;
+}
 .calculator {
     margin-bottom: 10px;
 }
 
-.count-field {
-    min-height: 110px;
+.cart-delete {
+    margin-right: 20px;
 }
 
-.disabled-input {
-    background:rgba(0,0,0,0);
-    border:none;
-    text-align: center;
+.order-css {
+    border:2px solid lightgray;
+    padding: 20px;
+    box-shadow: 10px 10px 5px grey;
+}
+
+.order-sum {
+
 }

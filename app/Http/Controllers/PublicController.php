@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Cart;
 use App\Product;
 use Illuminate\Http\Request;
 use App\Category;
@@ -19,7 +20,16 @@ class PublicController extends Controller
 		$branchIds = $category->categoryBranch($collections, $category->id);
 		$links = $category->links($collections, $branchIds);
 		if (empty($categories)) {
-			$products = $category->products->toArray();
+			$products = $products_models = $category->products->toArray();
+			if ($cart = Cart::cartExist()) {
+				$products = [];
+				foreach ($products_models as $products_model) {
+					if(array_key_exists ($products_model['id'], $cart)) {
+						$products_model['in_cart'] = TRUE;
+					}
+					$products[] = $products_model;
+				}
+			}
 			return view('public.product.index', compact('products', 'category', 'links'));
 		}
 		return view('public.category.show', compact('categories', 'category', 'links'));

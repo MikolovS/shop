@@ -49,7 +49,7 @@ class CartRequest extends FormRequest
 				    	'regex:/\+38\s\(0[0-9]{2}\)\s[0-9]{3}-[0-9]{2}-[0-9]{2}/'
 				    ],
 				    'user.address' => 'required',
-				    'user.email' => 'email',
+				    'user.email' => 'nullable|email',
 				    'user.payment_type' => 'required|integer',
 			    ];
 		    }

@@ -9,6 +9,7 @@
         "alexeymezenin/laravel-russian-slugs": "0.9.*",
         "baum/baum": "~1.1",
         "caouecs/laravel-lang": "~3.0",
+        "doctrine/dbal": "^2.6",
         "intervention/image": "^2.4",
         "laravel/framework": "5.4.*",
         "laravel/tinker": "~1.0",
